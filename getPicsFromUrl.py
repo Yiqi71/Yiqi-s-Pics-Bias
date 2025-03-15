@@ -13,13 +13,12 @@ options.add_argument("--headless")  # 无头模式，不显示浏览器窗口
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 # 设置保存图片的文件夹路径
-folder_path = r"E:\纽大\Useless Machines\Yiqi's Pics Bias\animal_pics"
+folder_path = r"E:\纽大\Useless Machines\Yiqi's Pics Bias\dog_pics"
 if not os.path.exists(folder_path):
     os.makedirs(folder_path)
 
 # 要爬取的网页URL
-url = "https://www.google.com/search?as_st=y&as_q=animal&as_epq=&as_oq=&as_eq=&imgsz=qsvga&imgar=&imgcolor=&imgtype=photo&cr=&as_sitesearch=&as_filetype=&tbs=sur:cl&udm=2"
-
+url = "https://unsplash.com/s/photos/dog"
 try:
     # 访问 Google 图片搜索页面
     driver.get(url)
@@ -37,8 +36,8 @@ try:
     img_tags = soup.find_all("img")
     img_urls = [img["src"] for img in img_tags if img.get("src") and not img["src"].startswith("data:")]
 
-    # 只下载前 500 张
-    max_images = 500
+    # 只下载前 800 张
+    max_images = 200
     img_urls = img_urls[:max_images]
 
     print(f"找到 {len(img_urls)} 张图片")
@@ -50,7 +49,7 @@ try:
             img_response = requests.get(img_url, timeout=5)
 
             # 设置图片保存的文件名
-            img_name = f"google-advancedsearch-{idx}.jpg"
+            img_name = f"unsplash-dog-{idx}.jpg"
             img_path = os.path.join(folder_path, img_name)
 
             # 保存图片
