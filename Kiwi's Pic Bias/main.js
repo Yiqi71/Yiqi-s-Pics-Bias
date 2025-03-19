@@ -1,6 +1,16 @@
 let scoreA = 0;
 let scoreB = 0;
 
+function retryUpload() {
+    document.getElementById("resultModal").style.display = "none";
+    goToUploadPage(); // 回到上传页面
+}
+
+function closeModal() {
+    document.getElementById("resultModal").style.display = "none"; // 关闭弹窗
+}
+
+
 // 生成0到5之间的随机分数
 function generateRandomScores() {
     scoreA = Math.floor(Math.random() * 6); // 生成0到5之间的随机数
@@ -93,32 +103,36 @@ function dragMove(e) {
 function stopDrag() {
     document.removeEventListener("mousemove", dragMove);
     document.removeEventListener("mouseup", stopDrag);
-     // 获取 leftHand 和 rightHand 的当前位置
-     const leftHand = document.getElementById("leftHandArea");
-     const rightHand = document.getElementById("rightHandArea");
- 
-     // 获取它们的 top 属性值
-     const leftTop = parseInt(leftHand.style.top, 10);
-     const rightTop = parseInt(rightHand.style.top, 10);
- 
-     // 检查两个元素是否都到达 40vh
-     if (leftTop <= window.innerHeight * 0.4 && rightTop <= window.innerHeight * 0.4) {
-         goToRecommendationPage(); // 调用推荐页面
-     }
+    // 获取 leftHand 和 rightHand 的当前位置
+    const leftHand = document.getElementById("leftHandArea");
+    const rightHand = document.getElementById("rightHandArea");
+
+    // 获取它们的 top 属性值
+    const leftTop = parseInt(leftHand.style.top, 10);
+    const rightTop = parseInt(rightHand.style.top, 10);
+
+    // 检查两个元素是否都到达 40vh
+    if (leftTop <= window.innerHeight * -0.2 && rightTop <= window.innerHeight * -0.2) {
+        goToRecommendationPage(); // 调用推荐页面
+    }
 }
 
 
 function goToUploadPage() {
     document.querySelector('.hero').style.display = 'none'; // 隐藏首页
     document.querySelector('.upload-page').style.display = 'flex';
-    let leftHand = document.getElementById("leftHandImage");
-    let rightHand = document.getElementById("rightHandImage");
+    let leftHand = document.getElementById("leftHandArea");
+    let rightHand = document.getElementById("rightHandArea");
     leftHand.style.transition = "top 1s ease-in-out";
     rightHand.style.transition = "top 1.5s ease-in-out";
     setTimeout(() => {
         leftHand.style.top = "0";
         rightHand.style.top = "0";
     }, 500);
+    setTimeout(() => {
+        leftHand.style.transition = "";
+        rightHand.style.transition = "";
+    }, 3000);
 }
 
 
@@ -134,21 +148,32 @@ function goToRecommendationPage() {
     setTimeout(() => {
         const hand = document.querySelector('#handImage');
         hand.style.transition = "top 2s ease-in-out, opacity 2s";
-        hand.style.top = "10%"; // 移动到目标位置
+        hand.style.top = "6%"; // 移动到目标位置
         hand.style.opacity = "1"; // 显示
     }, 2000);
 
     setTimeout(() => {
         const hand = document.querySelector('#handImage');
         hand.style.transition = "top 0.5s ease-in-out"; // 短暂移动
-        hand.style.top = "-2%"; // 戳一下
+        hand.style.top = "-6%"; // 戳一下
     }, 4000);
 
     setTimeout(() => {
         const hand = document.querySelector('#handImage');
         hand.style.transition = "top 0.5s ease-in-out"; // 回到目标位置
-        hand.style.top = "0%";
+        hand.style.top = "-2%";
+        // 显示弹窗
     }, 4800);
+    setTimeout(() => {
+        const hand = document.querySelector('#handImage');
+        hand.style.transition = "top 0.5s ease-in-out"; // 短暂移动
+        hand.style.top = "-6%"; // 戳一下
+        setTimeout(() => {
+            document.getElementById("resultText").innerText =
+                scoreA > scoreB ? "Kiwi prefers the first picture!" : "Kiwi prefers the second picture!";
+            document.getElementById("resultModal").style.display = "block";
+        }, 1000);
+    }, 5200);
 }
 
 // 绑定按钮点击事件来检测文件上传

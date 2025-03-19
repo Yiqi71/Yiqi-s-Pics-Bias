@@ -6,16 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiwi's Picture Advice</title>
     <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <section class="hero">
+        <h1>Kiwi's Picture Advice</h1>
         <h1>Not Sure Which Photo is Better? Let Me Help You Decide!</h1>
         <button id="uploadButton" onclick="goToUploadPage()">Upload Two Pictures</button>
     </section>
 
     <section class="upload-page">
-        <h2 class = "title2">Upload Two Pictures</h2>
+        <h2 class="title2">Upload Two Pictures</h2>
         <div class="upload-container">
             <!-- 左手位置 -->
             <div class="upload-area" id="leftHandArea">
@@ -46,7 +51,13 @@
         </div>
         <img src="point.png" id="handImage" class="hand-image" />
     </section>
-
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <p id="resultText"></p>
+            <button onclick="retryUpload()">Yes</button>
+            <button onclick="closeModal()">No</button>
+        </div>
+    </div>
 
     <script src="main.js"></script>
 </body>
