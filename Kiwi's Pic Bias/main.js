@@ -4,6 +4,13 @@ let scoreB = 0;
 function retryUpload() {
     document.getElementById("resultModal").style.display = "none";
     goToUploadPage(); // 回到上传页面
+    filesUploaded = false;
+    setTimeout(() => {
+        const hand = document.querySelector('#handImage');
+        hand.style.transition = "top 2s ease-in-out, opacity 1s";
+        hand.style.top = "-150px"; // 移动到目标位置
+        hand.style.opacity = "0"; // 显示
+    }, 2000);
 }
 
 function closeModal() {
@@ -19,17 +26,57 @@ function generateRandomScores() {
 
 // 从URL中获取传递的分数
 function getScoresFromURL() {
-    document.getElementById('scoreA').innerText = "Photo A Score: " + scoreA;
-    document.getElementById('scoreB').innerText = "Photo B Score: " + scoreB;
-
     // 根据分数推荐照片
+    const handImage = document.getElementById('handImage');
+    const leftArea = document.getElementById('leftHandArea').getBoundingClientRect();
+    const rightArea = document.getElementById('rightHandArea').getBoundingClientRect();
+
+    // 计算 handImage 的新位置
     if (scoreA > scoreB) {
-        document.getElementById('handImage').style.left = '30%'; // 推荐 Photo A
+        handImage.style.left = `${leftArea.left + leftArea.width / 2}px`;
     } else {
-        document.getElementById('handImage').style.left = '60%'; // 推荐 Photo B
+        handImage.style.left = `${rightArea.left + rightArea.width / 2}px`;
     }
+
     document.getElementById("recommendation").style.opacity = 0;
 }
+
+// python server.py
+async function compareImages() {
+    const photoAInput = document.getElementById('photoAInput').files[0];
+    const photoBInput = document.getElementById('photoBInput').files[0];
+
+    // if (!photoAInput || !photoBInput) {
+    //     alert("Please upload both images.");
+    //     return;
+    // }
+
+    let formData = new FormData();
+    formData.append("img1", photoAInput);
+    formData.append("img2", photoBInput);
+
+    try {
+        let response = await fetch('http://127.0.0.1:5001/compare', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        let data = await response.json(); // 解析响应为JSON
+        document.getElementById('result').innerText = data.result;
+
+        let hand = document.getElementById('handImage');
+        hand.style.left = data.score1 > data.score2 ? '30vw' : '60vw';
+    } catch (error) {
+        console.error("Error in compareImages:", error);
+        alert("There was an error processing the images.");
+    }
+}
+
+
 
 let filesUploaded = false; // 上传文件标志
 
@@ -45,7 +92,6 @@ function checkFileUploaded() {
             document.getElementById('photoAImage').src = e.target.result;
         };
         readerA.readAsDataURL(photoAInput.files[0]);
-
         const readerB = new FileReader();
         readerB.onload = function (e) {
             document.getElementById('photoBImage').src = e.target.result;
@@ -141,39 +187,44 @@ function goToRecommendationPage() {
     document.querySelector('.title2').style.display = 'none';
     document.querySelector('.recommendation-page').style.display = 'flex';
 
-    generateRandomScores();
-    getScoresFromURL();
+    if (filesUploaded) {
+        // compareImages();
+        generateRandomScores();
+        getScoresFromURL();
+    } else {
+        goToRecommendationPage();
+    }
 
     // 随机推荐分数更高的照片
     setTimeout(() => {
         const hand = document.querySelector('#handImage');
-        hand.style.transition = "top 2s ease-in-out, opacity 2s";
-        hand.style.top = "6%"; // 移动到目标位置
+        hand.style.transition = "top 1s ease-in-out, opacity 1s";
+        hand.style.top = "5%"; // 移动到目标位置
         hand.style.opacity = "1"; // 显示
-    }, 2000);
+    }, 1000);
 
     setTimeout(() => {
         const hand = document.querySelector('#handImage');
         hand.style.transition = "top 0.5s ease-in-out"; // 短暂移动
         hand.style.top = "-6%"; // 戳一下
-    }, 4000);
+    }, 2000);
 
     setTimeout(() => {
         const hand = document.querySelector('#handImage');
         hand.style.transition = "top 0.5s ease-in-out"; // 回到目标位置
         hand.style.top = "-2%";
         // 显示弹窗
-    }, 4800);
+    }, 2800);
     setTimeout(() => {
         const hand = document.querySelector('#handImage');
         hand.style.transition = "top 0.5s ease-in-out"; // 短暂移动
         hand.style.top = "-6%"; // 戳一下
         setTimeout(() => {
             document.getElementById("resultText").innerText =
-                scoreA > scoreB ? "Kiwi prefers the first picture!" : "Kiwi prefers the second picture!";
+                scoreA > scoreB ? "I think this one looks better!" : "I think this one looks better!";
             document.getElementById("resultModal").style.display = "block";
         }, 1000);
-    }, 5200);
+    }, 3200);
 }
 
 // 绑定按钮点击事件来检测文件上传
