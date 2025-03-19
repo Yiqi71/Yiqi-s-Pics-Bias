@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiwi's Picture Advice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="hero">
+        <h1>Not Sure Which Photo is Better? Let Me Help You Decide!</h1>
+        <button id="uploadButton" onclick="goToUploadPage()">Upload Two Pictures</button>
+    </section>
+
+    <section class="upload-page">
+        <h2 class = "title2">Upload Two Pictures</h2>
+        <div class="upload-container">
+            <!-- 左手位置 -->
+            <div class="upload-area" id="leftHandArea">
+                <img src="left.png" class="hand-image" id="leftHandImage" />
+                <img id="photoAImage" class="uploaded-photo" />
+                <input type="file" id="photoAInput" class="upload-input" accept="image/*">
+
+            </div>
+            <!-- 右手位置 -->
+            <div class="upload-area" id="rightHandArea">
+                <img src="right.png" class="hand-image" id="rightHandImage" />
+                <img id="photoBImage" class="uploaded-photo" />
+                <input type="file" id="photoBInput" class="upload-input" accept="image/*">
+
+            </div>
+        </div>
+        <!-- <button id="confirmButton" onclick="goToRecommendationPage()">Confirm</button> -->
+    </section>
+
+    <section class="recommendation-page">
+        <div class="photo-container">
+            <!-- <img src="path_to_photoA.jpg" id="photoAImage" class="photo" />
+            <img src="path_to_photoB.jpg" id="photoBImage" class="photo" /> -->
+        </div>
+        <div id="recommendation">
+            <p id="scoreA">Photo A Score: </p>
+            <p id="scoreB">Photo B Score: </p>
+        </div>
+        <img src="point.png" id="handImage" class="hand-image" />
+    </section>
+
+
+    <script src="main.js"></script>
+</body>
+
+</html>

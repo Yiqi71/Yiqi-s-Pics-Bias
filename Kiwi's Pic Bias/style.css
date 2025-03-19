@@ -1,0 +1,155 @@
+/* 基本样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(11, 21, 37);
+    color:aliceblue;
+  }
+  
+  .hero {
+    text-align: center;
+    padding: 50px 0;
+  }
+  
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  /* 上传页面 */
+  .upload-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    /* background-color: #00cec9; */
+    position: relative; /* 为父容器设置相对定位 */
+    top:0px;
+  }
+
+  #leftHandArea{
+    left: 200px;
+    /* background-color: rgb(33, 81, 123); */
+    position: absolute;
+    width: 210px; 
+    height: 140px; 
+    top:500px;
+  }
+
+  #rightHandArea{
+    right:200px;
+    /* background-color: rgb(33, 81, 123); */
+    position: absolute;
+    width: 210px; 
+    height: 140px; 
+    top:500px;
+  }
+  
+  .upload-area .hand-image {
+    position: absolute;
+    opacity: 1;
+    top: 400px;
+    left: -50px;
+    width: 280px; /* 调整手的大小 */
+    height: auto;
+  }
+  
+  .upload-input {
+    position: absolute;
+    top: 150px;
+    left: 0;
+    width: 80%; /* 调整上传区域大小 */
+    height: 80%;
+  }
+
+  .upload-input {
+    padding: 20px;
+    font-size: 16px;
+  }
+  .upload-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    display: none;
+  }
+
+  input[type="file"]::file-selector-button {
+    padding: 0.2em 0.4em;
+  }
+  
+  input[type="file"]::file-selector-button:hover {
+    background-color: #81ecec;
+    border: 2px solid #00cec9;
+  }
+
+  .uploaded-photo {
+    position: absolute;
+    top: 150px;
+    left: 0;
+    width: 100%; /* 调整上传的图片大小 */
+    height: 100%;
+    object-fit: cover; /* 保证图片充满上传区域 */
+  }
+
+
+  /* 推荐页面 */
+  .recommendation-page {
+    position: relative;
+    top:-100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    display: none;
+  }
+  
+  .photo-container {
+    display: flex;
+    gap: 20px;
+    opacity: 0;
+    top: 100%;
+    transform: translateY(50px); /* 初始状态：向下偏移 50px */
+    animation: fadeInUp 1.5s forwards ease-out;
+  }
+  
+  .photo {
+    width: 300px;
+    height: auto;
+    object-fit: cover;
+    opacity: 1;
+  }
+  
+  .hand-image {
+    position: absolute;
+    top: -150px;
+    width: 200px;
+    opacity: 0;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px); /* 初始位置：向下偏移 */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* 结束位置：回到正常位置 */
+    }
+  }
+  
+  @keyframes handAnimation {
+    0% {
+      opacity: 0;
+      top: 0%;
+    }
+    50% {
+      opacity: 1;
+      top: 10%;
+    }
+    100% {
+      opacity: 1;
+      top: 20%;
+    }
+  }
+  

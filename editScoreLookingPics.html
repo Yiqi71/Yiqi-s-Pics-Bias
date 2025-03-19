@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片评分编辑器</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+        }
+        input {
+            width: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h2>图片评分编辑器</h2>
+
+<table id="imageTable">
+    <thead>
+        <tr>
+            <th>图片</th>
+            <th>展示</th>
+            <th>评分</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 数据行会通过 JavaScript 动态插入 -->
+    </tbody>
+</table>
+
+<button onclick="saveScores()">保存评分</button>
+
+<script>
+    // 示例数据（你需要替换为实际的图片文件和评分）
+    const imagesData = [
+        {photo: '1078089.jpg', score: 881.206746},
+        {photo: '1078090.jpg', score: 885.0239838},
+        {photo: '1108099.jpg', score: 911.7705267},
+        // 添加更多图片数据
+    ];
+
+    // 图片存放的文件夹路径
+    const imageFolder = '/path/to/your/images/';
+
+    // 生成表格行
+    function generateTable() {
+        const tableBody = document.querySelector('#imageTable tbody');
+        imagesData.forEach(data => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${data.photo}</td>
+                <td><img src="${imageFolder}${data.photo}" alt="Image"></td>
+                <td><input type="text" value="${data.score}" onchange="updateScore('${data.photo}', this.value)"></td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // 更新评分
+    function updateScore(photo, newScore) {
+        const image = imagesData.find(img => img.photo === photo);
+        if (image) {
+            image.score = parseFloat(newScore);
+        }
+    }
+
+    // 保存更新后的评分（可以将数据发送到服务器或者保存到文件）
+    function saveScores() {
+        console.log("更新后的评分:", imagesData);
+        alert("评分已保存！");
+    }
+
+    // 页面加载时生成表格
+    window.onload = generateTable;
+</script>
+
+</body>
+</html>
